@@ -1,5 +1,7 @@
 import { Header } from "@/components/Header";
 import { StatCard } from "@/components/StatCard";
+import { MarketDynamics } from "@/components/MarketDynamics";
+import { IEOMarket } from "@/components/IEOMarket";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Shield, TrendingUp, Users, Zap } from "lucide-react";
@@ -92,6 +94,28 @@ export default function Home() {
             <span className="text-sm font-medium text-center">Easy to use</span>
           </div>
         </div>
+        
+        {/* Market Dynamics Section */}
+        <MarketDynamics />
+        
+        {/* Start Cryptocurrency Journey */}
+        <Card className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20 text-center">
+          <h2 className="text-2xl font-bold text-foreground mb-4">
+            Start your cryptocurrency journey
+          </h2>
+          <div className="flex items-center justify-center mb-4">
+            <div className="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center">
+              <Shield className="w-8 h-8 text-white" />
+            </div>
+          </div>
+          <h3 className="text-lg font-semibold text-foreground mb-2">Reliable security</h3>
+          <p className="text-muted-foreground">
+            Our advanced security measures and SAFU fund protect your digital assets from all risks.
+          </p>
+        </Card>
+        
+        {/* IEO Market Section */}
+        <IEOMarket />
       </div>
     </div>
   );
