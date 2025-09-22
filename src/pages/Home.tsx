@@ -5,6 +5,7 @@ import { IEOMarket } from "@/components/IEOMarket";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Shield, TrendingUp, Users, Zap } from "lucide-react";
+import { BottomNavigation } from "@/components/BottomNavigation";
 
 export default function Home() {
   return (
@@ -117,6 +118,7 @@ export default function Home() {
         {/* IEO Market Section */}
         <IEOMarket />
       </div>
+      <BottomNavigation />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileText, Clock } from "lucide-react";
+import { BottomNavigation } from "@/components/BottomNavigation";
 
 export default function Trading() {
   const [activeTradeType, setActiveTradeType] = useState("contract");
@@ -107,6 +108,7 @@ export default function Trading() {
           </>
         )}
       </div>
+      <BottomNavigation />  
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { BottomNavigation } from "@/components/BottomNavigation";
 import { Header } from "@/components/Header";
 import { Card } from "@/components/ui/card";
 
@@ -97,6 +98,7 @@ export default function News() {
           </div>
         </Card>
       </div>
+      <BottomNavigation />
     </div>
   );
 }

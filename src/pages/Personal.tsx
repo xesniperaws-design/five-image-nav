@@ -16,6 +16,7 @@ import {
   CreditCard, 
   Lock
 } from "lucide-react";
+import { BottomNavigation } from "@/components/BottomNavigation";
 
 export default function Personal() {
   return (
@@ -179,8 +180,49 @@ export default function Personal() {
               <ChevronRight className="w-5 h-5 text-muted-foreground" />
             </div>
           </Card>
+          <Card className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Lock className="w-5 h-5 text-primary" />
+                <span className="font-medium">Change Withdrawal Password</span>
+              </div>
+              <ChevronRight className="w-5 h-5 text-muted-foreground" />
+            </div>
+          </Card>
+          <Card className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Lock className="w-5 h-5 text-primary" />
+                <span className="font-medium">Bind Google Authenticator</span>
+              </div>
+              <ChevronRight className="w-5 h-5 text-muted-foreground" />
+            </div>
+          </Card>
+          <Card className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Lock className="w-5 h-5 text-primary" />
+                <span className="font-medium">About Us</span>
+              </div>
+              <ChevronRight className="w-5 h-5 text-muted-foreground" />
+            </div>
+          </Card>
+          <Card className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Lock className="w-5 h-5 text-primary" />
+                <span className="font-medium">White Paper</span>
+              </div>
+              <ChevronRight className="w-5 h-5 text-muted-foreground" />
+            </div>
+          </Card>
+
         </div>
+        <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+              Sign Out
+            </Button>
       </div>
+      <BottomNavigation />
     </div>
   );
 }

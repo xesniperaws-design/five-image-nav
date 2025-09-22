@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Eye, EyeOff, Headphones, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
+import { loginUser } from "@/lib/auth";
 
 export default function SignIn() {
   const [activeTab, setActiveTab] = useState<"email" | "mobile">("email");
@@ -12,6 +14,35 @@ export default function SignIn() {
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("+1");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const onLogin = async () => {
+    setError(null);
+    setLoading(true);
+    try {
+      const params: { email?: string; mobile?: string; password: string } = { password };
+      if (activeTab === "email") {
+        params.email = email.trim();
+        if (!params.email) throw new Error("Please enter email");
+      } else {
+        const fullMobile = `${selectedCountry}${mobile.trim()}`;
+        params.mobile = fullMobile;
+        if (!mobile.trim()) throw new Error("Please enter mobile");
+      }
+      if (!password) throw new Error("Please enter password");
+
+      await loginUser(params);
+      const redirect = searchParams.get("redirect") || "/";
+      navigate(redirect, { replace: true });
+    } catch (e: any) {
+      setError(e?.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const countries = [
     { code: "+1", flag: "🇺🇸", name: "United States" },
@@ -38,13 +69,13 @@ export default function SignIn() {
       </div>
 
       {/* Welcome Section */}
-      <div className="text-center px-8 mt-16 mb-32">
+      <div className="text-center px-8  mb-16">
         <h1 className="text-4xl font-bold text-navy mb-4">Welcome to MDEX Pro</h1>
         <p className="text-lg text-navy/80">Open transactions securely anytime, anywhere</p>
       </div>
 
       {/* Sign In Form */}
-      <div className="px-4">
+      <div >
         <Card className="bg-white rounded-t-3xl p-6 min-h-[500px]">
           {/* Tabs */}
           <div className="flex mb-8">
@@ -87,7 +118,7 @@ export default function SignIn() {
                     <SelectValue>
                       <div className="flex items-center gap-1">
                         <span>{countries.find(c => c.code === selectedCountry)?.flag}</span>
-                        <span className="text-sm">{selectedCountry}</span>
+                        <span className="text-sm text-black">{selectedCountry}</span>
                       </div>
                     </SelectValue>
                   </SelectTrigger>
@@ -135,9 +166,14 @@ export default function SignIn() {
             </div>
           </div>
 
+          {/* Error */}
+          {error && (
+            <div className="text-red-600 text-sm mb-2">{error}</div>
+          )}
+
           {/* Log In Button */}
-          <Button className="w-full h-12 bg-amber-400 hover:bg-amber-500 text-navy font-semibold rounded-lg mb-6">
-            Log in
+          <Button onClick={onLogin} disabled={loading} className="w-full h-12 bg-amber-400 hover:bg-amber-500 text-navy font-semibold rounded-lg mb-6">
+            {loading ? "Logging in..." : "Log in"}
           </Button>
 
           {/* Footer Links */}
