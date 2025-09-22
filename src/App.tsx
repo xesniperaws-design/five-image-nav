@@ -9,6 +9,8 @@ import Trading from "./pages/Trading";
 import AI from "./pages/AI";
 import News from "./pages/News";
 import Personal from "./pages/Personal";
+import Create from "./pages/Create";
+import SignIn from "./pages/SignIn";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +28,8 @@ const App = () => (
             <Route path="/ai" element={<AI />} />
             <Route path="/news" element={<News />} />
             <Route path="/personal" element={<Personal />} />
+            <Route path="/create" element={<Create />} />
+            <Route path="/signin" element={<SignIn />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

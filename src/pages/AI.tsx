@@ -4,8 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ChevronLeft, ArrowRight, Wallet, Shield, Zap, DollarSign, TrendingUp, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 
 export default function AI() {
+  const navigate = useNavigate();
+  
   return (
     <div className="min-h-screen bg-background pb-20">
       <div className="flex items-center p-4 bg-card border-b border-border">
@@ -115,7 +118,10 @@ export default function AI() {
               <Badge variant="secondary" className="bg-red-500/20 text-red-500">TRX</Badge>
             </div>
             
-            <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+            <Button 
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+              onClick={() => navigate("/create")}
+            >
               Hosting Now
             </Button>
           </Card>
