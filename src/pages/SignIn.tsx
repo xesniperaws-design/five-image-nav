@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { loginUser } from "@/lib/auth";
 
 export default function SignIn() {
   const [activeTab, setActiveTab] = useState<"email" | "mobile">("email");
@@ -18,23 +17,65 @@ export default function SignIn() {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const BACKEND_BASE = import.meta.env.VITE_BACKEND_BASE_URL || "";
 
   const onLogin = async () => {
     setError(null);
     setLoading(true);
     try {
-      const params: { email?: string; mobile?: string; password: string } = { password };
+      const params: { email?: string; mobile?: string; username?: string; password: string } = { password };
       if (activeTab === "email") {
         params.email = email.trim();
         if (!params.email) throw new Error("Please enter email");
+        params.username = params.email;
       } else {
         const fullMobile = `${selectedCountry}${mobile.trim()}`;
         params.mobile = fullMobile;
         if (!mobile.trim()) throw new Error("Please enter mobile");
+        params.username = fullMobile;
       }
       if (!password) throw new Error("Please enter password");
 
-      await loginUser(params);
+      if (!BACKEND_BASE) {
+        throw new Error("Missing VITE_BACKEND_BASE_URL environment variable");
+      }
+      const endpoint = `${BACKEND_BASE.replace(/\/$/, "")}/Auth/signin.html`;
+      const body = new URLSearchParams();
+      if (params.email) body.set("email", params.email);
+      if (params.mobile) body.set("mobile", params.mobile);
+      if (params.username) body.set("username", params.username);
+      body.set("password", params.password);
+      // Optional remember flag
+      body.set("remember", "1");
+
+      const res = await fetch(endpoint, {
+        ...(await (async () => {
+          try {
+            await fetch(`${BACKEND_BASE.replace(/\/$/, "")}/sanctum/csrf-cookie`, {
+              method: "GET",
+              credentials: "include",
+            });
+          } catch {}
+          return {} as const;
+        })()),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: body.toString(),
+        credentials: "include",
+        redirect: "manual",
+      });
+
+      if (!res.ok && res.type !== "opaqueredirect") {
+        // Try to extract error message if JSON
+        let msg = "Login failed";
+        try {
+          const data = await res.json();
+          msg = data?.message || msg;
+        } catch {}
+        throw new Error(msg);
+      }
       const redirect = searchParams.get("redirect") || "/";
       navigate(redirect, { replace: true });
     } catch (e: any) {
