@@ -13,10 +13,15 @@ const navItems = [
 
 export function BottomNavigation() {
   const navigate = useNavigate();
+  
 
   const handleClick: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
     const anchor = e.currentTarget as HTMLAnchorElement;
     const to = anchor.getAttribute("href") || "/";
+    if (to !== "/" && !isLoggedIn()) {
+      e.preventDefault();
+      navigate(`/signin`);
+    }
     
   };
 
