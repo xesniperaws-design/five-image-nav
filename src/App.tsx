@@ -11,6 +11,7 @@ import News from "./pages/News";
 import Personal from "./pages/Personal";
 import Create from "./pages/Create";
 import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 import Deposit from "./pages/Deposit";
 import Withdraw from "./pages/Withdraw";
 import PersonalInfo from "./pages/PersonalInfo";
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/personal" element={<Personal />} />
             <Route path="/create" element={<Create />} />
             <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route path="/deposit" element={<Deposit />} />
             <Route path="/withdraw" element={<Withdraw />} />
             <Route path="/personal-info" element={<PersonalInfo />} />
